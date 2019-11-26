@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev" : "next dev"
+    "dev": "next dev"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,8 @@
     "next": "^4.1.4",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.88.1",
     "solc": "^0.4.25",
     "truffle-hdwallet-provider": "0.0.3",
     "web3": "^1.0.0-beta.26"
