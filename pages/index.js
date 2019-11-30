@@ -10,7 +10,7 @@ class AccountIndex extends Component {
         const userAccounts = await AccFactory.methods.getDeployedAccounts().call();
         // const instance = DocContract(userAccounts[0]);
         // const fname = await instance.methods.firstName().call();
-        var test;
+        //var test;
         const arr = await Promise.all(userAccounts.map(async addr => {
             let acc = DocContract(addr);
             let firstName = await acc.methods.firstName().call();

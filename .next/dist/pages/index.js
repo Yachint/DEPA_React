@@ -128,7 +128,7 @@ var AccountIndex = function (_Component) {
             var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
                 var _this2 = this;
 
-                var userAccounts, test, arr;
+                var userAccounts, arr;
                 return _regenerator2.default.wrap(function _callee2$(_context2) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {

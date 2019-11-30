@@ -7,7 +7,7 @@ class CardRenderer extends Component {
     
     render() {
         const { fname, lname, address, docs} = this.props;
-        console.log(fname);
+        //console.log(fname);
         return(
             <Card fluid={true}>
                 <Card.Content>
