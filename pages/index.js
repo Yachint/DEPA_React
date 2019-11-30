@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import AccFactory from '../ethereum/Accounts'
 import RequestCard from '../components/requestCard';
 import DocContract from '../ethereum/DocContract';
-import { Card, Button } from 'semantic-ui-react'
+import { Card, Button, Grid } from 'semantic-ui-react'
 import Layout from '../components/Layout';
+import { Link } from '../routes';
 
 class AccountIndex extends Component {
     static async getInitialProps(){
@@ -34,8 +35,9 @@ class AccountIndex extends Component {
     }
 
     renderCards(){
-        return this.props.dataItems.map(item => {
+        return this.props.dataItems.map((item,index) => {
             return <RequestCard 
+            key={index}
             fname={item.fname}
             lname={item.lname}
             address={item.address}
@@ -48,18 +50,45 @@ class AccountIndex extends Component {
         //console.log(this.props.dataItems);
         return (
             <Layout>
-                <div>
-                    <h3>DEPA Accounts</h3>
-                    <Button 
-                    content = "Sign up"
-                    icon = "add circle"
-                    primary={true}
-                    floated = "right"/>
+                 <h3>DEPA Accounts</h3>
+                <Grid>
+                    <Grid.Row>
+                        <Grid.Column width={12}>
+                            <Card.Group>
+                            {this.renderCards()}
+                            </Card.Group>
+                        </Grid.Column>
 
-                    <Card.Group>
-                        {this.renderCards()}
-                    </Card.Group>
-                </div>
+                        <Grid.Column width={4}>
+                            <Link route="/accounts/new">
+                            <a>
+                            <Button 
+                            content = "Sign up"
+                            icon = "add circle"
+                            primary={true}
+                            floated = "right"/>
+                            </a>
+                        </Link>
+
+                        <Link route="/accounts/uploadNew">
+                            <a>
+                            <Button 
+                            content = "Deposit Files"
+                            icon = "upload"
+                            secondary={true}
+                            floated = "right"/>
+                            </a>
+                        </Link>
+                        </Grid.Column>
+
+                        
+                    </Grid.Row>
+                </Grid>
+                   
+                    
+
+                    
+                
             </Layout>
         );
     }

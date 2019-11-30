@@ -10,6 +10,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _semanticUiReact = require('semantic-ui-react');
 
+var _routes = require('../routes');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _jsxFileName = '/home/yachint/DEPA_React/components/Header.js';
@@ -17,24 +19,36 @@ var _jsxFileName = '/home/yachint/DEPA_React/components/Header.js';
 exports.default = function () {
     return _react2.default.createElement(_semanticUiReact.Menu, { style: { marginTop: '10px' }, __source: {
             fileName: _jsxFileName,
-            lineNumber: 6
-        }
-    }, _react2.default.createElement('a', { className: 'item', __source: {
-            fileName: _jsxFileName,
             lineNumber: 7
         }
-    }, 'DEPA'), _react2.default.createElement(_semanticUiReact.Menu.Menu, { position: 'right', __source: {
+    }, _react2.default.createElement(_routes.Link, { route: '/', __source: {
             fileName: _jsxFileName,
-            lineNumber: 11
+            lineNumber: 8
         }
     }, _react2.default.createElement('a', { className: 'item', __source: {
             fileName: _jsxFileName,
-            lineNumber: 12
+            lineNumber: 9
         }
-    }, 'Accounts'), _react2.default.createElement('a', { className: 'item', __source: {
+    }, 'DEPA')), _react2.default.createElement(_semanticUiReact.Menu.Menu, { position: 'right', __source: {
+            fileName: _jsxFileName,
+            lineNumber: 14
+        }
+    }, _react2.default.createElement(_routes.Link, { route: '/', __source: {
             fileName: _jsxFileName,
             lineNumber: 15
         }
-    }, 'Sign up')));
+    }, _react2.default.createElement('a', { className: 'item', __source: {
+            fileName: _jsxFileName,
+            lineNumber: 16
+        }
+    }, 'Accounts')), _react2.default.createElement(_routes.Link, { route: '/accounts/new', __source: {
+            fileName: _jsxFileName,
+            lineNumber: 21
+        }
+    }, _react2.default.createElement('a', { className: 'item', __source: {
+            fileName: _jsxFileName,
+            lineNumber: 22
+        }
+    }, 'Sign up'))));
 };
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImNvbXBvbmVudHMvSGVhZGVyLmpzIl0sIm5hbWVzIjpbIlJlYWN0IiwiTWVudSIsIm1hcmdpblRvcCJdLCJtYXBwaW5ncyI6Ijs7Ozs7O0FBQUEsQUFBTzs7OztBQUNQLEFBQVMsQUFFVDs7Ozs7O2tCQUFlLFlBQU0sQUFDakI7MkJBQ0ksQUFBQyx1Q0FBSyxPQUFTLEVBQUUsV0FBakIsQUFBZSxBQUFhO3NCQUE1Qjt3QkFBQSxBQUNJO0FBREo7S0FBQSxrQkFDSSxjQUFBLE9BQUcsV0FBSCxBQUFhO3NCQUFiO3dCQUFBO0FBQUE7T0FESixBQUNJLEFBSUEseUJBQUMsY0FBRCxzQkFBQSxBQUFNLFFBQUssVUFBWCxBQUFzQjtzQkFBdEI7d0JBQUEsQUFDSTtBQURKO3VCQUNJLGNBQUEsT0FBRyxXQUFILEFBQWE7c0JBQWI7d0JBQUE7QUFBQTtPQURKLEFBQ0ksQUFHQSw2QkFBQSxjQUFBLE9BQUcsV0FBSCxBQUFhO3NCQUFiO3dCQUFBO0FBQUE7T0FWWixBQUNJLEFBS0ksQUFJSSxBQU1mO0FBakJEIiwiZmlsZSI6IkhlYWRlci5qcyIsInNvdXJjZVJvb3QiOiIvaG9tZS95YWNoaW50L0RFUEFfUmVhY3QifQ==
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImNvbXBvbmVudHMvSGVhZGVyLmpzIl0sIm5hbWVzIjpbIlJlYWN0IiwiTWVudSIsIkxpbmsiLCJtYXJnaW5Ub3AiXSwibWFwcGluZ3MiOiI7Ozs7OztBQUFBLEFBQU87Ozs7QUFDUCxBQUFTOztBQUNULEFBQVMsQUFBWSxBQUVyQjs7Ozs7O2tCQUFlLFlBQU0sQUFDakI7MkJBQ0ksQUFBQyx1Q0FBSyxPQUFTLEVBQUUsV0FBakIsQUFBZSxBQUFhO3NCQUE1Qjt3QkFBQSxBQUNJO0FBREo7S0FBQSxrQkFDSSxBQUFDLDhCQUFLLE9BQU4sQUFBWTtzQkFBWjt3QkFBQSxBQUNJO0FBREo7dUJBQ0ksY0FBQSxPQUFHLFdBQUgsQUFBYTtzQkFBYjt3QkFBQTtBQUFBO09BRlIsQUFDSSxBQUNJLEFBS0osMEJBQUMsY0FBRCxzQkFBQSxBQUFNLFFBQUssVUFBWCxBQUFzQjtzQkFBdEI7d0JBQUEsQUFDSTtBQURKO3VCQUNJLEFBQUMsOEJBQUssT0FBTixBQUFZO3NCQUFaO3dCQUFBLEFBQ0k7QUFESjt1QkFDSSxjQUFBLE9BQUcsV0FBSCxBQUFhO3NCQUFiO3dCQUFBO0FBQUE7T0FGUixBQUNJLEFBQ0ksQUFLSiw4QkFBQSxBQUFDLDhCQUFLLE9BQU4sQUFBWTtzQkFBWjt3QkFBQSxBQUNJO0FBREo7dUJBQ0ksY0FBQSxPQUFHLFdBQUgsQUFBYTtzQkFBYjt3QkFBQTtBQUFBO09BaEJoQixBQUNJLEFBT0ksQUFPSSxBQUNJLEFBUW5CO0FBekJEIiwiZmlsZSI6IkhlYWRlci5qcyIsInNvdXJjZVJvb3QiOiIvaG9tZS95YWNoaW50L0RFUEFfUmVhY3QifQ==
