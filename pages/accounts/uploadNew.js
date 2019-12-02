@@ -5,15 +5,14 @@ import AM from '../../ethereum/Accounts';
 import web3 from '../../ethereum/web3';
 import ipfsApi from 'ipfs-api';
 import DocContract from '../../ethereum/DocContract';
-import IPFS_Client from '../../IPFS_Client';
-import { get } from 'http';
+
 
 
 class FileForm extends Component {
 
     state = { expiry: false, docType: '', minFee: '', hash: '',
              errorMessage: '', loading: false, file : '', fileName : '',
-             hash: ''};
+             hash: '', showLoading: false, showCompleted: false};
 
    toBuffer = (ab) => {
     console.log("INSIDE");
@@ -42,16 +41,55 @@ class FileForm extends Component {
         })
     }
 
+    loadingMessage = () => {
+        return (
+            <div class="ui icon message">
+                        <i class="notched circle loading icon"></i>
+                        <div class="content">
+                            <div class="header">
+                            Just a few seconds
+                            </div>
+                            <p>We're currently uploading your document to IPFS...</p>
+                        </div>
+                    </div>
+        );
+    }
+
+    completeMessage = () => {
+        return (
+            <div class="ui icon message">
+                        <i class="inbox icon"></i>
+                        <div class="content">
+                            <div class="header">
+                            Succesfully Uploaded to IPFS! 
+                            </div>
+                            <p>The hash provided will act as unique link to your document</p>
+                        </div>
+                    </div>
+        );
+    }
 
 
 
     onFileInput = async (event) => {
-        this.setState({ loading : true, errorMessage : 'DOING'});
+        this.setState({ loading : true, showLoading: true});
+        this.setState({ file: event.target.files[0], fileName: event.target.files[0].name },
+      () => {
+        console.log(
+          "File chosen --->",
+          this.state.file,
+          console.log("File name  --->", this.state.fileName)        );
+        
+        
+      }
+    );
+
+
         const file = event.target.files[0];
         const files = await this.uploadFile(file);
         const multihash = files[0].hash;
         console.log(multihash);
-        this.setState({loading:false, errorMessage : 'DONNEEE', hash : multihash});
+        this.setState({loading:false, showLoading: false, showCompleted: true, hash : multihash});
     }
 
 
@@ -135,6 +173,8 @@ class FileForm extends Component {
     }
 
     render() {
+        const loadStyle = this.state.showLoading ? {} : {display : 'none'};
+        const completeStyle = this.state.showCompleted ? {} : {display : 'none'};
         return (
             <Layout>
                 <h3>Enter Document Details</h3>
@@ -174,9 +214,14 @@ class FileForm extends Component {
                             })
                         }}/>
                     </Form.Field>
+                    <div style={loadStyle}>
+                        {this.loadingMessage()}
+                    </div>
+                    <div style={completeStyle}>
+                        {this.completeMessage()}
+                    </div>
                     <Message error header="Oops!" content={this.state.errorMessage} />
                     
-                    new
                         <div className="ui fluid segment">
                             <Form.Input type="file" onChange={this.onFileInput}
                             id="file"

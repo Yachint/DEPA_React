@@ -27,6 +27,7 @@
     "fs-web": "^1.0.1",
     "ganache-cli": "^6.7.0",
     "ipfs-api": "^26.1.2",
+    "ipfs-http-client": "^40.0.1",
     "mocha": "^6.2.2",
     "next": "^4.1.4",
     "next-routes": "^1.4.2",
