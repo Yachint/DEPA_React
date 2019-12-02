@@ -3,14 +3,135 @@ import { Form, Button, Input, Message } from 'semantic-ui-react';
 import Layout from '../../components/Layout';
 import AM from '../../ethereum/Accounts';
 import web3 from '../../ethereum/web3';
+import ipfsApi from 'ipfs-api';
+import DocContract from '../../ethereum/DocContract';
+import IPFS_Client from '../../IPFS_Client';
+import { get } from 'http';
+
 
 class FileForm extends Component {
 
     state = { expiry: false, docType: '', minFee: '', hash: '',
-             errorMessage: '', loading: false, file : ''};
+             errorMessage: '', loading: false, file : '', fileName : '',
+             hash: ''};
+
+   toBuffer = (ab) => {
+    console.log("INSIDE");
+    var buf = Buffer.alloc(ab.byteLength);
+    var view = new Uint8Array(ab);
+    for (var i = 0; i < buf.length; ++i) {
+        buf[i] = view[i];
+    }
+    return buf;
+    }
+
+    uploadFile = async (file) => {
+        const ipfs = ipfsApi('ipfs.infura.io', '5001', {protocol: 'https'});
+          
+          
+
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const buffer = Buffer.from(reader.result);
+                ipfs.add(buffer).then(files => {
+                    resolve(files);
+                }).catch(error => reject(error))
+            }
+            reader.readAsArrayBuffer(file)
+        })
+    }
+
+
+
+
+    onFileInput = async (event) => {
+        this.setState({ loading : true, errorMessage : 'DOING'});
+        const file = event.target.files[0];
+        const files = await this.uploadFile(file);
+        const multihash = files[0].hash;
+        console.log(multihash);
+        this.setState({loading:false, errorMessage : 'DONNEEE', hash : multihash});
+    }
+
+
+    
+
+//   fileChange = async e => {
+//     this.setState(
+//       { file: e.target.files[0], fileName: e.target.files[0].name },
+//       () => {
+//         console.log(
+//           "File chosen --->",
+//           this.state.file,
+//           console.log("File name  --->", this.state.fileName)        );
+        
+        
+//       }
+//     );
+
+//     try{
+
+//         this.setState({ loading : true, errorMessage : 'DOING'});
+//         let buff;
+//             var file = e.target.files[0];
+//             const reader = new FileReader();
+//             reader.onload = function(event) {
+//                 console.log(event.target.result)
+//                 buff = event.target.result;
+//               };
+//             reader.readAsArrayBuffer(file);
+//             // reader.onloadend = async () => {
+//             //     const fileBuff = Buffer(reader.result);
+//             //     ipfs.files.add(fileBuff,function(err,file){
+//             //         if(err){
+//             //             console.log(err);
+//             //         }
+//             //         else{
+//             //             fileHash = file.path;
+//             //         }
+//             //     })
+//             // }
+//             var getHash = await IPFS_Client(buff);
+//             this.setState({ hash : getHash});
+            
+//     }catch(err){
+//         this.setState({ errorMessage : err.message});
+//     }
+
+//     this.setState({loading:false, errorMessage : 'DONNEEE'});
+    
+//   };
+
 
     onSubmit = async (event) => {
         event.preventDefault();
+        this.setState({ loading : true, errorMessage : ''});
+
+        try{
+            const accounts = await web3.eth.getAccounts();
+            const myAddress = await AM.methods.getMyAccount().call();
+            const userAcc = DocContract(myAddress);
+
+            const { expiry, docType, minFee} = this.props;
+            
+            
+            
+            //const formData = new FormData;
+            //formData.append("file",this.state.file);
+
+            
+            //let testBuffer = new Buffer.from(this.state.file);
+            //console.log(testBuffer);
+            
+            
+
+            
+            }catch(err){
+                this.setState({ errorMessage : err.message});
+            }
+
+            this.setState({loading:false});
     }
 
     render() {
@@ -19,6 +140,7 @@ class FileForm extends Component {
                 <h3>Enter Document Details</h3>
                 <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
                     <Form.Field>
+                        
                         <label>Expiry</label>
                         <Input 
                         label="true/false"
@@ -54,18 +176,26 @@ class FileForm extends Component {
                     </Form.Field>
                     <Message error header="Oops!" content={this.state.errorMessage} />
                     
-                    
+                    new
                         <div className="ui fluid segment">
-                            <input type="file" onChange={(event) => {
-                                console.log(event);
-                            }} className="inputfile" id="embedpollfileinput" />
-
+                            <Form.Input type="file" onChange={this.onFileInput}
+                            id="file"
+                            hidden/>
+                            <Form.Input
+                                fluid
+                                label="File Chosen: "
+                                placeholder="Use the above bar to browse your file system"
+                                readOnly
+                                value={this.state.fileName}
+                            />
                         </div>
   
                     
 
                     <Button loading={this.state.loading} primary >Submit Document</Button>
                 </Form>
+
+                    <h3>HASH : {this.state.hash}</h3>
             </Layout>
         );
     }

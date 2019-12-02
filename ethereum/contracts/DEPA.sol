@@ -14,9 +14,11 @@ contract AccountManager{
     }
     History[] public ledger;
     address[] public deployedAccounts;
+    mapping(address=>address) logInDetails;
     
     function createAccount(string fn, string ln) public{
         address newAccount = new DocumentContract(fn,ln,msg.sender,this);
+        logInDetails[msg.sender] = newAccount;
         deployedAccounts.push(newAccount);
     }
     
@@ -43,7 +45,9 @@ contract AccountManager{
         
     }
     
-    
+    function getMyAccount() public view returns (address){
+        return logInDetails[msg.sender];
+    }
     
 }
 
