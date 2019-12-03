@@ -6,23 +6,11 @@ import web3 from '../../ethereum/web3';
 import ipfsApi from 'ipfs-api';
 import DocContract from '../../ethereum/DocContract';
 
-
-
 class FileForm extends Component {
 
     state = { expiry: false, docType: '', minFee: '', hash: '',
              errorMessage: '', loading: false, file : '', fileName : '',
              hash: '', showLoading: false, showCompleted: false};
-
-   toBuffer = (ab) => {
-    console.log("INSIDE");
-    var buf = Buffer.alloc(ab.byteLength);
-    var view = new Uint8Array(ab);
-    for (var i = 0; i < buf.length; ++i) {
-        buf[i] = view[i];
-    }
-    return buf;
-    }
 
     uploadFile = async (file) => {
         const ipfs = ipfsApi('ipfs.infura.io', '5001', {protocol: 'https'});
@@ -148,23 +136,15 @@ class FileForm extends Component {
 
         try{
             const accounts = await web3.eth.getAccounts();
-            const myAddress = await AM.methods.getMyAccount().call();
+            const myAddress = await AM.methods.getMyAccount(accounts[0]).call();
+            console.log(myAddress);
             const userAcc = DocContract(myAddress);
 
-            const { expiry, docType, minFee} = this.props;
+            const { expiry, docType, minFee, hash} = this.state;
             
-            
-            
-            //const formData = new FormData;
-            //formData.append("file",this.state.file);
-
-            
-            //let testBuffer = new Buffer.from(this.state.file);
-            //console.log(testBuffer);
-            
-            
-
-            
+            await userAcc.methods.submitDocument(expiry, docType, minFee, hash).send({
+                from: accounts[0]
+            });
             }catch(err){
                 this.setState({ errorMessage : err.message});
             }

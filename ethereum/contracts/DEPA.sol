@@ -45,8 +45,8 @@ contract AccountManager{
         
     }
     
-    function getMyAccount() public view returns (address){
-        return logInDetails[msg.sender];
+    function getMyAccount(address sender) public view returns (address){
+        return logInDetails[sender];
     }
     
 }
