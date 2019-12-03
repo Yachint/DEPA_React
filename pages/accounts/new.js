@@ -3,7 +3,7 @@ import Layout from '../../components/Layout';
 import { Form, Button, Input, Message } from 'semantic-ui-react';
 import AM from '../../ethereum/Accounts';
 import web3 from '../../ethereum/web3';
-
+import {Router} from '../../routes'
 
 class AccountsNew extends Component {
     
@@ -25,7 +25,7 @@ class AccountsNew extends Component {
             ).send({
                 from : accounts[0]
             });
-
+            Router.pushRoute('/');
         }catch(err){
             this.setState({ errorMessage : err.message});
         }
