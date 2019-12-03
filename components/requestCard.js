@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import web3 from '../ethereum/web3';
 import DocContract from '../ethereum/DocContract';
 import { Button , Card } from 'semantic-ui-react'; 
+import {Link} from '../routes'
 
 class CardRenderer extends Component {
     
@@ -17,7 +18,9 @@ class CardRenderer extends Component {
 
                 </Card.Content>
                 <Card.Content extra>
-                    <Button color='blue'>View Profile</Button>
+                <Link route={`/accounts/${this.props.address}`}>
+                <a>    <Button color='blue'>View Profile</Button></a>
+                </Link>
                 </Card.Content>
 
             </Card>
