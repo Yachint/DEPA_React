@@ -116,7 +116,7 @@ class AccountIndex extends Component {
           <i className="close icon"></i>
           <div className="content" style={{"word-wrap": "break-word"}}>
               <div className="title">Can't Login!</div>
-               <p style={{"word-wrap": "break-word"}}>Please install Metamask Extension or Log in!</p>
+               <p style={{"wordWrap": "break-word"}}>Please install Metamask Extension or Log in!</p>
           </div>
            </div>
       </div>

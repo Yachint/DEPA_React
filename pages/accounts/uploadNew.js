@@ -14,8 +14,9 @@ class FileForm extends Component {
 
     constructor(props){
         super(props);
-        this.state = { user : props.user}
-        console.log(this.state.user);
+        this.state = { user : this.props.utoken}
+        console.log("USER ::");
+        console.log(this.state.utoken);
     }
 
     uploadFile = async (file) => {
@@ -163,7 +164,6 @@ class FileForm extends Component {
         const completeStyle = this.state.showCompleted ? {} : {display : 'none'};
         return (
             <Layout>
-                {console.log(this.props.user)}
                 <h3>Enter Document Details</h3>
                 <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
                     <Form.Field>
@@ -226,7 +226,6 @@ class FileForm extends Component {
 
                     <Button loading={this.state.loading} primary >Submit Document</Button>
                 </Form>
-
                     <h3>HASH : {this.state.hash}</h3>
     
             </Layout>
