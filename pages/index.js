@@ -166,7 +166,7 @@ class AccountIndex extends Component {
                             icon = "add circle"
                             primary={true}
                             floated = "right"
-                            disabled={this.state.buttonDis}/>
+                            />
                             </a>
                         </Link>
 
