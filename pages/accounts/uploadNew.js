@@ -12,6 +12,12 @@ class FileForm extends Component {
              errorMessage: '', loading: false, file : '', fileName : '',
              hash: '', showLoading: false, showCompleted: false};
 
+    constructor(props){
+        super(props);
+        this.state = { user : props.user}
+        console.log(this.state.user);
+    }
+
     uploadFile = async (file) => {
         const ipfs = ipfsApi('ipfs.infura.io', '5001', {protocol: 'https'});
           
@@ -31,10 +37,10 @@ class FileForm extends Component {
 
     loadingMessage = () => {
         return (
-            <div class="ui icon message">
-                        <i class="notched circle loading icon"></i>
-                        <div class="content">
-                            <div class="header">
+            <div className="ui icon message">
+                        <i className="notched circle loading icon"></i>
+                        <div className="content">
+                            <div className="header">
                             Just a few seconds
                             </div>
                             <p>We're currently uploading your document to IPFS...</p>
@@ -45,10 +51,10 @@ class FileForm extends Component {
 
     completeMessage = () => {
         return (
-            <div class="ui icon message">
-                        <i class="inbox icon"></i>
-                        <div class="content">
-                            <div class="header">
+            <div className="ui icon message">
+                        <i className="inbox icon"></i>
+                        <div className="content">
+                            <div className="header">
                             Succesfully Uploaded to IPFS! 
                             </div>
                             <p>The hash provided will act as unique link to your document</p>
@@ -157,6 +163,7 @@ class FileForm extends Component {
         const completeStyle = this.state.showCompleted ? {} : {display : 'none'};
         return (
             <Layout>
+                {console.log(this.props.user)}
                 <h3>Enter Document Details</h3>
                 <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
                     <Form.Field>
@@ -221,6 +228,7 @@ class FileForm extends Component {
                 </Form>
 
                     <h3>HASH : {this.state.hash}</h3>
+    
             </Layout>
         );
     }
