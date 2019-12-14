@@ -17,9 +17,13 @@ class RequestIndex extends Component{
                 return campaign.methods.requests(index).call()
             })
         );
-
-        console.log(requestings);
-        return{address,requestings,docCount}; 
+        const docRequestings=await Promise.all(
+            Array(parseInt(docCount)).fill().map((element,index)=>{
+                return campaign.methods.getDocument(index).call()
+            })
+        );
+        console.log(docRequestings);
+        return{address,requestings,docRequestings,docCount}; 
     }
 
     renderRow(){
@@ -28,6 +32,7 @@ class RequestIndex extends Component{
             key={index}
             id={index}
             requestings={request}
+            docRequestings={this.props.docRequestings[index]}
             address={this.props.address}
             docCount={this.props.docCount}
             />
@@ -39,7 +44,7 @@ class RequestIndex extends Component{
         return (
             <Layout>
                 <h3>Requests</h3>
-            <Link route={`/campaigns/${this.props.address}/requests/new`}>
+                <Link route={`/accounts/${this.props.address}/uploadNew`}>
                 <a>
                     <Button primary floated='right' style={{marginBottom: 10}}>Add Request</Button>
                 </a>
@@ -48,12 +53,12 @@ class RequestIndex extends Component{
                 <Header>
                     <Row>
                         <HeaderCell>ID</HeaderCell>
-                        <HeaderCell>Description</HeaderCell>
-                        <HeaderCell>Amount</HeaderCell>
-                        <HeaderCell>Recipient</HeaderCell>
-                        <HeaderCell>Approval</HeaderCell>
-                        <HeaderCell>Approve</HeaderCell>
-                        <HeaderCell>Finalize</HeaderCell>
+                        <HeaderCell>Doc Type</HeaderCell>
+                        <HeaderCell>Time</HeaderCell>
+                        <HeaderCell>Time Format</HeaderCell>
+                        
+                        <HeaderCell>Access Fee (Wei)</HeaderCell>
+                        <HeaderCell>Request ?</HeaderCell>
                     </Row>
                 </Header>
                 <Body>
