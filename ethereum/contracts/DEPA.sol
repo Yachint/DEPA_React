@@ -126,6 +126,17 @@ contract DocumentContract{
         documents.push(doc);
     }
     
+    function getDocument(uint docIndex) public view returns(string, bool,uint,uint){
+        Document storage doc = documents[docIndex];
+        return (doc.typeofDoc, doc.expiry, doc.fee, doc.dateAdded);
+    }
+    
+    function getHash(uint docIndex) public view returns(string){
+        require(msg.sender==owner);
+        Document storage doc = documents[docIndex];
+        return doc.dataHash;
+    }
+    
     function requestPermission(uint docIndex, string dType, uint dAfter ) public payable{
         
         Document storage doc = documents[docIndex];

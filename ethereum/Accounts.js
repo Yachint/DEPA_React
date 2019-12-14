@@ -3,7 +3,7 @@ import accountJSON from './build/AccountManager.json';
 
 const instance = new web3.eth.Contract(
     JSON.parse(accountJSON.interface),
-    '0xa27C607170251A0AB871127a16a33c38980bB04d'
+    '0x5a5f4B06c1422B270c86726661118AE96446FE2f'
 );
 
 export default instance;
