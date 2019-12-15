@@ -6,13 +6,14 @@ class RequestThirdParty extends Component {
     state = {
         buttonDis:true
     }
+    if(status!="PENDING"){
+            this.setState({buttonDis:false})
+        }
     render() {
         const { id,orgname, description, address,requestee,timeafter,status,datetype} = this.props;
       
         const {Row,Cell}=Table;
-        if(status!="PENDING"){
-            this.setState({buttonDis:false})
-        }
+        
         return(
             <Row /*disabled={request.complete} positive={readyToFinalize && !request.complete}*/>
             <Cell>{id}</Cell>
@@ -26,9 +27,7 @@ class RequestThirdParty extends Component {
                 Pending !!
                 </Button>
                 :(
-            <Link route={`/`}>
-                <a><Button color='green' basic disabled={this.state.buttonDis}>Access Doc</Button></a>
-            </Link>
+                <Button color='green' basic disabled={this.state.buttonDis}>Access Doc</Button>
                 )}
                 </Cell>
     
