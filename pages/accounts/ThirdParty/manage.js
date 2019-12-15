@@ -27,7 +27,9 @@ class ManageTP extends Component{
             return <RequestTP
             key={index}
             id={index}
+            conAddress = {docRequest.contractAdd}
             address={this.props.address}
+            docIndex = {docRequest.docIndex}
             orgname={this.props.orgName}
             requestee={docRequest.requestee}
             timeafter={docRequest.timeAfter}
@@ -59,6 +61,7 @@ class ManageTP extends Component{
                         {/* <HeaderCell>Access Fee (Wei)</HeaderCell> */}
                         <HeaderCell>Status</HeaderCell>
                         <HeaderCell>Get Document</HeaderCell>
+                        <HeaderCell>Access Link</HeaderCell>
                     </Row>
                 </Header>
                 <Body>
