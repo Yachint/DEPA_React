@@ -6,11 +6,12 @@ class RequestThirdParty extends Component {
     state = {
         buttonDis:true
     }
+    const { id,orgname, description, address,requestee,timeafter,status,datetype} = this.props;
     if(status!="PENDING"){
             this.setState({buttonDis:false})
         }
     render() {
-        const { id,orgname, description, address,requestee,timeafter,status,datetype} = this.props;
+       
       
         const {Row,Cell}=Table;
         
