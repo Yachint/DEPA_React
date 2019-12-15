@@ -14,7 +14,7 @@ var _routes = require('../routes');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _jsxFileName = 'G:\\DEPA_React\\components\\Header.js';
+var _jsxFileName = '/home/yachint/DEPA_React/components/Header.js';
 
 exports.default = function () {
     return _react2.default.createElement(_semanticUiReact.Menu, { style: { marginTop: '10px' }, __source: {
@@ -33,7 +33,7 @@ exports.default = function () {
             fileName: _jsxFileName,
             lineNumber: 14
         }
-    }, _react2.default.createElement(_routes.Link, { route: '/', __source: {
+    }, _react2.default.createElement(_routes.Link, { route: '/history', __source: {
             fileName: _jsxFileName,
             lineNumber: 15
         }
@@ -41,14 +41,30 @@ exports.default = function () {
             fileName: _jsxFileName,
             lineNumber: 16
         }
-    }, 'Accounts')), _react2.default.createElement(_routes.Link, { route: '/accounts/new', __source: {
+    }, 'Transactions')), _react2.default.createElement(_routes.Link, { route: '/actionsHistory', __source: {
             fileName: _jsxFileName,
-            lineNumber: 21
+            lineNumber: 20
         }
     }, _react2.default.createElement('a', { className: 'item', __source: {
             fileName: _jsxFileName,
-            lineNumber: 22
+            lineNumber: 21
+        }
+    }, 'History')), _react2.default.createElement(_routes.Link, { route: '/', __source: {
+            fileName: _jsxFileName,
+            lineNumber: 25
+        }
+    }, _react2.default.createElement('a', { className: 'item', __source: {
+            fileName: _jsxFileName,
+            lineNumber: 26
+        }
+    }, 'Accounts')), _react2.default.createElement(_routes.Link, { route: '/accounts/new', __source: {
+            fileName: _jsxFileName,
+            lineNumber: 31
+        }
+    }, _react2.default.createElement('a', { className: 'item', __source: {
+            fileName: _jsxFileName,
+            lineNumber: 32
         }
     }, 'Sign up'))));
 };
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImNvbXBvbmVudHNcXEhlYWRlci5qcyJdLCJuYW1lcyI6WyJSZWFjdCIsIk1lbnUiLCJMaW5rIiwibWFyZ2luVG9wIl0sIm1hcHBpbmdzIjoiOzs7Ozs7QUFBQSxBQUFPOzs7O0FBQ1AsQUFBUzs7QUFDVCxBQUFTLEFBQVksQUFFckI7Ozs7OztrQkFBZSxZQUFNLEFBQ2pCOzJCQUNJLEFBQUMsdUNBQUssT0FBUyxFQUFFLFdBQWpCLEFBQWUsQUFBYTtzQkFBNUI7d0JBQUEsQUFDSTtBQURKO0tBQUEsa0JBQ0ksQUFBQyw4QkFBSyxPQUFOLEFBQVk7c0JBQVo7d0JBQUEsQUFDSTtBQURKO3VCQUNJLGNBQUEsT0FBRyxXQUFILEFBQWE7c0JBQWI7d0JBQUE7QUFBQTtPQUZSLEFBQ0ksQUFDSSxBQUtKLDBCQUFDLGNBQUQsc0JBQUEsQUFBTSxRQUFLLFVBQVgsQUFBc0I7c0JBQXRCO3dCQUFBLEFBQ0k7QUFESjt1QkFDSSxBQUFDLDhCQUFLLE9BQU4sQUFBWTtzQkFBWjt3QkFBQSxBQUNJO0FBREo7dUJBQ0ksY0FBQSxPQUFHLFdBQUgsQUFBYTtzQkFBYjt3QkFBQTtBQUFBO09BRlIsQUFDSSxBQUNJLEFBS0osOEJBQUEsQUFBQyw4QkFBSyxPQUFOLEFBQVk7c0JBQVo7d0JBQUEsQUFDSTtBQURKO3VCQUNJLGNBQUEsT0FBRyxXQUFILEFBQWE7c0JBQWI7d0JBQUE7QUFBQTtPQWhCaEIsQUFDSSxBQU9JLEFBT0ksQUFDSSxBQVFuQjtBQXpCRCIsImZpbGUiOiJIZWFkZXIuanMiLCJzb3VyY2VSb290IjoiRzovREVQQV9SZWFjdCJ9
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImNvbXBvbmVudHMvSGVhZGVyLmpzIl0sIm5hbWVzIjpbIlJlYWN0IiwiTWVudSIsIkxpbmsiLCJtYXJnaW5Ub3AiXSwibWFwcGluZ3MiOiI7Ozs7OztBQUFBLEFBQU87Ozs7QUFDUCxBQUFTOztBQUNULEFBQVMsQUFBWSxBQUVyQjs7Ozs7O2tCQUFlLFlBQU0sQUFDakI7MkJBQ0ksQUFBQyx1Q0FBSyxPQUFTLEVBQUUsV0FBakIsQUFBZSxBQUFhO3NCQUE1Qjt3QkFBQSxBQUNJO0FBREo7S0FBQSxrQkFDSSxBQUFDLDhCQUFLLE9BQU4sQUFBWTtzQkFBWjt3QkFBQSxBQUNJO0FBREo7dUJBQ0ksY0FBQSxPQUFHLFdBQUgsQUFBYTtzQkFBYjt3QkFBQTtBQUFBO09BRlIsQUFDSSxBQUNJLEFBS0osMEJBQUMsY0FBRCxzQkFBQSxBQUFNLFFBQUssVUFBWCxBQUFzQjtzQkFBdEI7d0JBQUEsQUFDSTtBQURKO3VCQUNJLEFBQUMsOEJBQUssT0FBTixBQUFZO3NCQUFaO3dCQUFBLEFBQ0k7QUFESjt1QkFDSSxjQUFBLE9BQUcsV0FBSCxBQUFhO3NCQUFiO3dCQUFBO0FBQUE7T0FGUixBQUNJLEFBQ0ksQUFJSixrQ0FBQSxBQUFDLDhCQUFLLE9BQU4sQUFBWTtzQkFBWjt3QkFBQSxBQUNJO0FBREo7dUJBQ0ksY0FBQSxPQUFHLFdBQUgsQUFBYTtzQkFBYjt3QkFBQTtBQUFBO09BUFIsQUFNSSxBQUNJLEFBSUosNkJBQUEsQUFBQyw4QkFBSyxPQUFOLEFBQVk7c0JBQVo7d0JBQUEsQUFDSTtBQURKO3VCQUNJLGNBQUEsT0FBRyxXQUFILEFBQWE7c0JBQWI7d0JBQUE7QUFBQTtPQVpSLEFBV0ksQUFDSSxBQUtKLDhCQUFBLEFBQUMsOEJBQUssT0FBTixBQUFZO3NCQUFaO3dCQUFBLEFBQ0k7QUFESjt1QkFDSSxjQUFBLE9BQUcsV0FBSCxBQUFhO3NCQUFiO3dCQUFBO0FBQUE7T0ExQmhCLEFBQ0ksQUFPSSxBQWlCSSxBQUNJLEFBT25CO0FBbENEIiwiZmlsZSI6IkhlYWRlci5qcyIsInNvdXJjZVJvb3QiOiIvaG9tZS95YWNoaW50L0RFUEFfUmVhY3QifQ==

@@ -12,18 +12,57 @@ contract AccountManager{
         string tUnit;
         string action;
     }
+    
+    struct Actions {
+        string action;
+        address fromAdd;
+        address ToAdd;
+        uint feePaid;
+        uint tstamp;
+    }
+    Actions[] public actions;
     History[] public ledger;
     address[] public deployedAccounts;
     mapping(address=>address) logInDetails;
+    
+    address[] public deployedThirdParty;
+    mapping(address=>address) accThirdParty;
     
     function createAccount(string fn, string ln) public{
         address newAccount = new DocumentContract(fn,ln,msg.sender,this);
         logInDetails[msg.sender] = newAccount;
         deployedAccounts.push(newAccount);
+        registerAction("ACCOUNT CREATION",msg.sender,this,0,now);
+    }
+    
+    function registerAction(string ac, address fadd, address tadd, uint fee, uint tsp) public {
+        Actions memory ac1 = Actions({
+           action: ac,
+           fromAdd: fadd,
+           ToAdd: tadd,
+           feePaid: fee,
+           tstamp: tsp
+        }); 
+        
+        actions.push(ac1);
+    }
+    
+    function registerThirdParty(string ogName, string desc) public{
+        address newAccount = new ThirdParty(ogName,msg.sender,this,desc);
+        deployedThirdParty.push(newAccount);
+        accThirdParty[msg.sender] = newAccount;
+        registerAction("ORGANISATION REGISTERED",msg.sender,this,0,now);
+    }
+    
+    function getContractAddress(address tp) public view returns (address){
+        return accThirdParty[tp];
     }
     
     function getDeployedAccounts() public view returns (address[]) {
         return deployedAccounts;
+    }
+    function getThirdPartyList() public view returns (address[]) {
+        return deployedThirdParty;
     }
     function getLedgerLength() public view returns (uint) {
         return ledger.length;
@@ -49,7 +88,66 @@ contract AccountManager{
         return logInDetails[sender];
     }
     
+    function getActionsLength() public view returns (uint) {
+        return actions.length;
+    }
+    
 }
+
+
+contract ThirdParty {
+    
+    struct Request{
+        address contractAdd;
+        address requestee;
+        uint docIndex;
+        uint timeAfter;
+        string dateType;
+        string status;
+    }
+    
+    Request[] public requests; 
+    address public owner;
+    string public orgName;
+    address public manager;
+    string public description;
+    
+    
+    function ThirdParty(string orgN, address creatorN, address managerAdd, string descriptionN) public {
+        orgName = orgN;
+        owner = creatorN;
+        manager = managerAdd;
+        description = descriptionN;
+        
+    }
+    
+    function getRequestsLength() public view returns (uint) {
+        return requests.length;
+    }
+    
+    function updateStatus(uint index, string status_new) public {
+        Request storage req = requests[index];
+        req.status = status_new;
+        AccountManager ac = AccountManager(manager);
+        ac.registerAction("UPDATED STATUS",msg.sender,this,0,now);
+    }
+    
+    function addRequest(address reqee, uint docI, uint taft, string dtype, string stat, address contractAdd) public{
+        
+        Request memory req = Request({
+                requestee: reqee,
+                docIndex: docI,
+                dateType: dtype,
+                timeAfter: taft,
+                status: stat,
+                contractAdd : contractAdd
+        });
+        
+        requests.push(req);
+    }
+    
+}
+
 
 contract DocumentContract{
     
@@ -124,6 +222,8 @@ contract DocumentContract{
         });
         
         documents.push(doc);
+        AccountManager ac = AccountManager(manager);
+        ac.registerAction("DOCUMENT ADDED",msg.sender,this,0,now);
     }
     
     function getDocument(uint docIndex) public view returns(string, bool,uint,uint){
@@ -155,6 +255,9 @@ contract DocumentContract{
         AccountManager acc = AccountManager(manager);
         //manager.call(bytes4(keccak256("addToLedger(address, address, uint, string, uint, uint, string, string)")));
         acc.addToLedger(requests.length,req.requester,req.requestee,now,doc.typeofDoc,doc.fee,req.timeAfter,req.dateType,"PENDING");
+        address tpContract = acc.getContractAddress(msg.sender);
+        ThirdParty tp = ThirdParty(tpContract);
+        tp.addRequest(owner, docIndex, dAfter, dType, "PENDING",this);
         requests.push(req);
     }
     
@@ -199,6 +302,9 @@ contract DocumentContract{
         AccountManager acc = AccountManager(manager);
         //manager.call(bytes4(keccak256("addToLedger(address, address, uint, string, uint, uint, string, string)")));
         acc.addToLedger(index,req.requester,req.requestee,now,doc.typeofDoc,doc.fee,req.timeAfter,req.dateType,"ACCEPTED");
+        address tpContract = acc.getContractAddress(req.requester);
+        ThirdParty tp = ThirdParty(tpContract);
+        tp.updateStatus(index, "ACCEPTED");
     }
     
 
@@ -227,12 +333,20 @@ contract DocumentContract{
         AccountManager acc = AccountManager(manager);
         //manager.call(bytes4(keccak256("addToLedger(address, address, uint, string, uint, uint, string, string)")));
         acc.addToLedger(index,req.requester,req.requestee,now,doc.typeofDoc,doc.fee,req.timeAfter,req.dateType,"REJECTED");
+        address tpContract = acc.getContractAddress(req.requester);
+        ThirdParty tp = ThirdParty(tpContract);
+        tp.updateStatus(index, "REJECTED");
     }
     
+    function markAccessed() public {
+        AccountManager acc = AccountManager(manager);
+        acc.registerAction("DOCUMENT ACCESSED",msg.sender,this,0,now);
+    }
     
     function AccessDocument(uint docIndex) public view returns (string) {
         //Follow flow
         Document storage doc = documents[docIndex];
+        
         
         if(doc.expiry == true){
             require(doc.timeGiven[msg.sender]!=0 && doc.timeGiven[msg.sender] >= now);
