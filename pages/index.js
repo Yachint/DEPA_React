@@ -17,7 +17,8 @@ class AccountIndex extends Component {
         loading : true,
         buttonDis : true,
         tp : false,
-        type : ''
+        type : '',
+        address : ''
     }
     
     async componentDidMount() {
@@ -84,13 +85,13 @@ class AccountIndex extends Component {
                     const userAcc = DocContract(isUser);
                     let firstName = await userAcc.methods.firstName().call();
                     user = firstName;
-                    this.setState({type: 'User'});
+                    this.setState({type: 'User', address: isUser});
                 }
                 else{
                     const userAcc = ThirdParty(isThirdParty);
                     let firstName = await userAcc.methods.orgName().call();
                     user = firstName;
-                    this.setState({tp : true, type: 'ThirdParty'});
+                    this.setState({tp : true, type: 'ThirdParty', address: isThirdParty});
                 }
                 
             }
@@ -232,7 +233,7 @@ class AccountIndex extends Component {
                             disabled={this.state.buttonDis}/>
                             </a>
                         </Link>
-                        <Link route={`/accounts/${this.state.type}/manage`} params={{user : this.state.user}}>
+                        <Link route={`/accounts/${this.state.type}/manage/${this.state.address}`} params={{user : this.state.user}}>
                             <a>
                             <Button 
                             style = {{marginTop : "50px"}}

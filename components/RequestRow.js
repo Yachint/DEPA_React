@@ -24,7 +24,7 @@ class RequestRow extends Component{
 
     render(){
         const {Row,Cell}=Table;
-        const {id,docRequestings,docCount}=this.props;
+        const {id,docRequestings,docCount, address}=this.props;
        // const readyToFinalize= request.approvalCount > approversCount/2;
         return(
         <Row /*disabled={request.complete} positive={readyToFinalize && !request.complete}*/>
@@ -32,7 +32,7 @@ class RequestRow extends Component{
             <Cell>{docRequestings[0]}</Cell>
             <Cell>{docRequestings[2]}</Cell>
             <Cell>
-            <Link route={`/accounts/${this.props.address}/documents/showDoc`}>
+            <Link route={`/accounts/${address}/documents/${id}/${docRequestings[2]}/showDoc`}>
                 <a><Button color='teal' basic>Request</Button></a>
             </Link>
                 </Cell>
