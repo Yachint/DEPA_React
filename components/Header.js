@@ -12,6 +12,16 @@ export default () => {
             </Link>
 
             <Menu.Menu position = "right">
+                <Link route="/history">
+                    <a className="item">
+                        Transactions
+                    </a>
+                </Link>
+                <Link route="/actionsHistory">
+                    <a className="item">
+                        History
+                    </a>
+                </Link>
                 <Link route="/">
                     <a className="item">
                         Accounts
@@ -23,7 +33,6 @@ export default () => {
                         Sign up
                     </a>
                 </Link>
-                
             </Menu.Menu>
         </Menu>
     );

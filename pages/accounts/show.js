@@ -9,31 +9,32 @@ import RequestRow from '../../components/RequestRow';
 class RequestIndex extends Component{
     static async getInitialProps(props){
         const {address}=props.query;
+        
         const campaign=Campaign(address);
         const docCount = await campaign.methods.getDocumentsLength().call();
+        const reqCount = await campaign.methods.getRequestsLength().call();
         // const approversCount=await campaign.methods.approversCount().call();
-        const requestings=await Promise.all(
-            Array(parseInt(docCount)).fill().map((element,index)=>{
-                return campaign.methods.requests(index).call()
-            })
-        );
+        // const requestings=await Promise.all(
+        //     Array(parseInt(reqCount)).fill().map((element,index)=>{
+        //         return campaign.methods.requests(index).call()
+        //     })
+        // );
+        //console.log(requestings);
         const docRequestings=await Promise.all(
             Array(parseInt(docCount)).fill().map((element,index)=>{
                 return campaign.methods.getDocument(index).call()
             })
         );
         console.log(docRequestings);
-        return{address,requestings,docRequestings,docCount}; 
+        return{address,docRequestings,docCount}; 
     }
 
     renderRow(){
-        return this.props.requestings.map((request,index)=>{
+        return this.props.docRequestings.map((docRequest,index)=>{
             return <RequestRow
             key={index}
             id={index}
-            requestings={request}
-            docRequestings={this.props.docRequestings[index]}
-            address={this.props.address}
+            docRequestings={docRequest}
             docCount={this.props.docCount}
             />
         })
@@ -53,10 +54,7 @@ class RequestIndex extends Component{
                 <Header>
                     <Row>
                         <HeaderCell>ID</HeaderCell>
-                        <HeaderCell>Doc Type</HeaderCell>
-                        <HeaderCell>Time</HeaderCell>
-                        <HeaderCell>Time Format</HeaderCell>
-                        
+                        <HeaderCell>Doc Type</HeaderCell>                        
                         <HeaderCell>Access Fee (Wei)</HeaderCell>
                         <HeaderCell>Request ?</HeaderCell>
                     </Row>

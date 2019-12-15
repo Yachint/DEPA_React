@@ -6,6 +6,8 @@ import { Card, Button, Grid } from 'semantic-ui-react'
 import Layout from '../components/Layout';
 import { Link } from '../routes';
 import web3 from '../ethereum/web3';
+import ThirdParty from '../ethereum/ThirdParty';
+import TPCard from '../components/requestThirdParty';
 
 class AccountIndex extends Component {
 
@@ -13,7 +15,9 @@ class AccountIndex extends Component {
         user : '',
         warning : false,
         loading : true,
-        buttonDis : true
+        buttonDis : true,
+        tp : false,
+        type : ''
     }
     
     async componentDidMount() {
@@ -40,9 +44,24 @@ class AccountIndex extends Component {
         })
 
         );
+
+        const ThirdParties = await AccFactory.methods.getThirdPartyList().call();
+        const tarr = await Promise.all(ThirdParties.map(async addr => {
+            let acc = ThirdParty(addr);
+            let orgName = await acc.methods.orgName().call();
+            let description = await acc.methods.description().call();
+            const item = {
+                orgName :orgName,
+                description : description,
+                address : addr
+            }
+            return item;
+        })
+
+        );
         
-        
-        return { dataItems : arr, userAccounts : userAccounts};
+        //console.log(tarr);
+        return { dataItems : arr, userAccounts : userAccounts, tpItems: tarr};
     }
 
     getLoginInfo = async () => {
@@ -55,20 +74,31 @@ class AccountIndex extends Component {
         }
         else{
             const isUser = await AccFactory.methods.getMyAccount(accounts[0]).call();
-            console.log(isUser);
-            if(isUser == "0x0000000000000000000000000000000000000000"){
+            const isThirdParty = await AccFactory.methods.getContractAddress(accounts[0]).call();
+            //console.log(isUser);
+            if(isUser == "0x0000000000000000000000000000000000000000" 
+            && isThirdParty == "0x0000000000000000000000000000000000000000"){
                 user = "Guest";
             }else{
-                const userAcc = DocContract(isUser);
-                let firstName = await userAcc.methods.firstName().call();
-                let lastName = await userAcc.methods.lastName().call();
-                user = firstName;
+                if(isUser !== "0x0000000000000000000000000000000000000000"){
+                    const userAcc = DocContract(isUser);
+                    let firstName = await userAcc.methods.firstName().call();
+                    user = firstName;
+                    this.setState({type: 'User'});
+                }
+                else{
+                    const userAcc = ThirdParty(isThirdParty);
+                    let firstName = await userAcc.methods.orgName().call();
+                    user = firstName;
+                    this.setState({tp : true, type: 'ThirdParty'});
+                }
+                
             }
             warn = false;
         }
         
         this.setState({ user : user, warning : warn, loading: false});
-        if(this.state.warning == false){
+        if(this.state.warning == false && this.state.tp == false){
             this.setState({buttonDis : false});
         }
     }
@@ -85,8 +115,19 @@ class AccountIndex extends Component {
         })
     }
 
+    renderTP(){
+        return this.props.tpItems.map((item,index) => {
+            return <TPCard 
+            key={index}
+            orgName={item.orgName}
+            description={item.description}
+            address={item.address}
+            />
+        })
+    }
+
     logInSuccess = () => {
-       return ( <div className="ui steps">
+       return ( <div className="ui steps" fluid={true}>
        <div className="completed step">
          <i className="user circle"></i>
          <div className="content">
@@ -114,7 +155,7 @@ class AccountIndex extends Component {
         return (<div className="ui steps">
         <div className="step">
           <i className="close icon"></i>
-          <div className="content" style={{"word-wrap": "break-word"}}>
+          <div className="content" style={{"wordWrap": "break-word"}}>
               <div className="title">Can't Login!</div>
                <p style={{"wordWrap": "break-word"}}>Please install Metamask Extension or Log in!</p>
           </div>
@@ -140,16 +181,25 @@ class AccountIndex extends Component {
         // }
         return (
             <Layout user={this.state.user}>
-                 <h3>DEPA Accounts</h3>
+                 <h3></h3>
                 <Grid>
                     <Grid.Row>
-                        <Grid.Column width={12}>
+                    
+                        <Grid.Column width={6}>
+                        <h3>DEPA Accounts</h3>
                             <Card.Group>
                             {this.renderCards()}
                             </Card.Group>
                         </Grid.Column>
 
-                        <Grid.Column width={4}>
+                        <Grid.Column width={6}>
+                        <h3>Third Party Accounts</h3>
+                            <Card.Group>
+                            {this.renderTP()}
+                            </Card.Group>
+                        </Grid.Column>
+
+                        <Grid.Column width={4} style={{"marginTop" : "35px"}}>
                         <div style={loadMessage}>
                             {this.loadingMessage()}
                         </div>
@@ -162,6 +212,7 @@ class AccountIndex extends Component {
                             <Link route="/accounts/new">
                             <a>
                             <Button 
+                            style = {{marginTop : "20px", marginBottom : "20px"}}
                             content = "Sign up"
                             icon = "add circle"
                             primary={true}
@@ -173,11 +224,23 @@ class AccountIndex extends Component {
                         <Link route="/accounts/uploadNew" params={{user : this.state.user}}>
                             <a>
                             <Button 
+                            style = {{marginTop : "20px"}}
                             content = "Deposit Files"
                             icon = "upload"
                             secondary={true}
                             floated = "right"
                             disabled={this.state.buttonDis}/>
+                            </a>
+                        </Link>
+                        <Link route={`/accounts/${this.state.type}/manage`} params={{user : this.state.user}}>
+                            <a>
+                            <Button 
+                            style = {{marginTop : "50px"}}
+                            className = "ui green button"
+                            content = "Manage Account"
+                            icon = "user circle"
+                            fluid = {true}
+                            disabled={this.state.warning}/>
                             </a>
                         </Link>
                         </Grid.Column>
