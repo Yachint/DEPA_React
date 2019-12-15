@@ -34,6 +34,7 @@ class RequestIndex extends Component{
             return <RequestRow
             key={index}
             id={index}
+            address={this.props.address}
             docRequestings={docRequest}
             docCount={this.props.docCount}
             />
