@@ -210,6 +210,7 @@ class AccountIndex extends Component {
                         <div style = {enabledMetamask}>
                             {this.logInSuccess()}
                         </div>
+                        {this.state.type=='' ?
                             <Link route="/accounts/new">
                             <a>
                             <Button 
@@ -220,8 +221,18 @@ class AccountIndex extends Component {
                             floated = "right"
                             />
                             </a>
-                        </Link>
-
+                             </Link>
+                        :(
+                            <Button 
+                            style = {{marginTop : "20px", marginBottom : "20px"}}
+                            content = "Signed In"
+                            color='orange'
+                            primary={true}
+                            floated = "right"
+                            />
+                        )
+                            }
+                        {this.state.type!='ThirdParty' ?
                         <Link route="/accounts/uploadNew" params={{user : this.state.user}}>
                             <a>
                             <Button 
@@ -233,6 +244,15 @@ class AccountIndex extends Component {
                             disabled={this.state.buttonDis}/>
                             </a>
                         </Link>
+                        :(
+                            <Button 
+                            style = {{marginTop : "20px"}}
+                            content = "Deposit Files"
+                            icon = "upload"
+                            secondary={true}
+                            floated = "right"
+                            disabled={this.state.buttonDis}/>
+                        )}
                         <Link route={`/accounts/${this.state.type}/manage/${this.state.address}`} params={{user : this.state.user}}>
                             <a>
                             <Button 
