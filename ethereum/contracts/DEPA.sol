@@ -91,7 +91,9 @@ contract AccountManager{
     function getActionsLength() public view returns (uint) {
         return actions.length;
     }
-    
+    function deactivateAccount(address conAdd) public{
+        logInDetails[conAdd] = 0x0000000000000000000000000000000000000000;
+    }
 }
 
 
@@ -106,11 +108,13 @@ contract ThirdParty {
         string status;
     }
     
-    Request[] public requests; 
+    mapping(address=>Request[]) record;
+    Request[] public Irequests; 
     address public owner;
     string public orgName;
     address public manager;
     string public description;
+    address[] public conn;
     
     
     function ThirdParty(string orgN, address creatorN, address managerAdd, string descriptionN) public {
@@ -121,11 +125,13 @@ contract ThirdParty {
         
     }
     
-    function getRequestsLength() public view returns (uint) {
+    function getRequestsLength(address contractAdd) public view returns (uint) {
+        Request[] storage requests = record[contractAdd];
         return requests.length;
     }
     
-    function updateStatus(uint index, string status_new) public {
+    function updateStatus(uint index, string status_new,address contractAdd) public {
+        Request[] storage requests = record[contractAdd];
         Request storage req = requests[index];
         req.status = status_new;
         AccountManager ac = AccountManager(manager);
@@ -133,6 +139,8 @@ contract ThirdParty {
     }
     
     function addRequest(address reqee, uint docI, uint taft, string dtype, string stat, address contractAdd) public{
+        
+        Request[] storage requests = record[contractAdd];
         
         Request memory req = Request({
                 requestee: reqee,
@@ -144,7 +152,22 @@ contract ThirdParty {
         });
         
         requests.push(req);
+        conn.push(contractAdd);
     }
+    
+    function getConnArray() public view returns (address[]){
+        return conn;
+    }
+    
+    function getArrayLength(address contractAdd) public view returns(uint){
+        Request[] storage requests = record[contractAdd];
+        return requests.length;
+    }
+    function setRequestArray(address contractAdd) public{
+        Request[] storage requests = record[contractAdd];
+        Irequests = requests;
+    }
+    
     
 }
 
@@ -304,7 +327,7 @@ contract DocumentContract{
         acc.addToLedger(index,req.requester,req.requestee,now,doc.typeofDoc,doc.fee,req.timeAfter,req.dateType,"ACCEPTED");
         address tpContract = acc.getContractAddress(req.requester);
         ThirdParty tp = ThirdParty(tpContract);
-        tp.updateStatus(index, "ACCEPTED");
+        tp.updateStatus(index, "ACCEPTED",this);
     }
     
 
@@ -335,7 +358,7 @@ contract DocumentContract{
         acc.addToLedger(index,req.requester,req.requestee,now,doc.typeofDoc,doc.fee,req.timeAfter,req.dateType,"REJECTED");
         address tpContract = acc.getContractAddress(req.requester);
         ThirdParty tp = ThirdParty(tpContract);
-        tp.updateStatus(index, "REJECTED");
+        tp.updateStatus(index, "REJECTED",this);
     }
     
     function markAccessed() public {
