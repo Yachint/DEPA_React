@@ -97,7 +97,7 @@ class CheckOutRequests extends Component{
                 <Body>
                    {this.renderRowList()}
                 </Body>
-            </Table> : <h2>Loading...</h2> }
+            </Table> : <h2></h2> }
 
             </div>
             
