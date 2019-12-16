@@ -108,6 +108,7 @@ class AccountIndex extends Component {
         return this.props.dataItems.map((item,index) => {
             return <RequestCard 
             key={index}
+            type={this.state.type}
             fname={item.fname}
             lname={item.lname}
             address={item.address}
@@ -122,6 +123,7 @@ class AccountIndex extends Component {
             key={index}
             orgName={item.orgName}
             description={item.description}
+            type={this.state.type}
             address={item.address}
             />
         })
