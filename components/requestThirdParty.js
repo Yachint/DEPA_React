@@ -5,8 +5,8 @@ import {Link} from '../routes'
 class TPRenderer extends Component {
     
     render() {
-        const { orgName, description, address} = this.props;
-        //console.log(fname);
+        const {type, orgName, description, address} = this.props;
+        // console.log(type);
         return(
             <Card fluid={true}>
                 <Card.Content>
@@ -16,9 +16,11 @@ class TPRenderer extends Component {
 
                 </Card.Content>
                 <Card.Content extra>
+                    {type==""?
                 <Link route={`/accounts/${this.props.address}`}>
                 <a>    <Button color='blue'>View Profile</Button></a>
-                </Link>
+                </Link> :(null)
+                }
                 </Card.Content>
 
             </Card>

@@ -7,8 +7,8 @@ import {Link} from '../routes'
 class CardRenderer extends Component {
     
     render() {
-        const { fname, lname, address, docs} = this.props;
-        //console.log(fname);
+        const { fname, lname, address, docs,type} = this.props;
+        // console.log(type);
         return(
             <Card fluid={true}>
                 <Card.Content>
@@ -18,10 +18,13 @@ class CardRenderer extends Component {
 
                 </Card.Content>
                 <Card.Content extra>
+                { type!="User" ?
                 <Link route={`/accounts/${this.props.address}`}>
                 <a>    <Button color='blue'>View Profile</Button></a>
-                </Link>
+                </Link> :(null)
+                }
                 </Card.Content>
+        
 
             </Card>
         );
