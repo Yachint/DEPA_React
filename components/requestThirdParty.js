@@ -6,7 +6,7 @@ class TPRenderer extends Component {
     
     render() {
         const {type, orgName, description, address} = this.props;
-        console.log(type);
+        // console.log(type);
         return(
             <Card fluid={true}>
                 <Card.Content>
