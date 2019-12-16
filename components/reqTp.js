@@ -26,6 +26,11 @@ class RequestThirdParty extends Component {
         try{
             const accounts = await web3.eth.getAccounts();
             const contract = DocContract(this.props.conAddress);
+
+            await contract.methods.markAccessed().send({
+                from: accounts[0]
+            })
+
             let hash = await contract.methods.AccessDocument(this.props.docIndex).call({
                 from: accounts[0]
             });
@@ -58,6 +63,7 @@ class RequestThirdParty extends Component {
         }
         const {Row,Cell}=Table;
         const buttonHide = this.state.available ? {} : {display : 'none'}
+        console.log(status);
         return(
             <Row /*disabled={request.complete} positive={readyToFinalize && !request.complete}*/>
             <Cell>{id}</Cell>
@@ -67,7 +73,7 @@ class RequestThirdParty extends Component {
             <Cell>{status}</Cell>
             <Cell>{
                 buttonDis ? 
-                <Button color='red'onClick={this.onAccept} disabled={buttonDis} > 
+                <Button color='red'onClick={this.onAccept} > 
                 Pending !!
                 </Button>
                 :(
