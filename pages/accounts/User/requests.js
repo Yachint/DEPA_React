@@ -24,6 +24,7 @@ class RequestGetter extends Component{
         return this.props.requestings.map((docRequest,index)=>{
             return <RROW
             key={index}
+            tpDocIndex = {docRequest.tpIndex}
             id={index} //FIX THIS TO docRequest.docIndex
             address={this.props.address}
             requestings={docRequest}

@@ -14,9 +14,12 @@ class GetterRequestRow extends Component{
    onAccept = async (event) => {
         this.setState({ loading : true, errorMessage : ''});
         event.preventDefault();
-
+        console.log(this.props.address);
+        console.log(this.props.id);
+        
         try{
             const accounts = await web3.eth.getAccounts();
+            console.log(accounts[0]);
             const contract = DocContract(this.props.address);
             await contract.methods.grantPermission(this.props.id).send({
                 from: accounts[0]

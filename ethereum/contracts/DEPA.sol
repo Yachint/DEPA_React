@@ -185,6 +185,7 @@ contract DocumentContract{
     
     struct Request{
         address requester;
+        uint tpIndex;
         address requestee;
         uint docIndex;
         bool granted;
@@ -261,13 +262,17 @@ contract DocumentContract{
     }
     
     function requestPermission(uint docIndex, string dType, uint dAfter ) public payable{
-        
+        AccountManager acc = AccountManager(manager);
+        address tpContract = acc.getContractAddress(msg.sender);
+        ThirdParty tp = ThirdParty(tpContract);
+        uint currTpIndex = tp.getRequestsLength(this);
         Document storage doc = documents[docIndex];
         require(msg.value>=doc.fee);
         
             Request memory req = Request({
                 requester: msg.sender,
                 requestee: owner,
+                tpIndex: currTpIndex,
                 docIndex: docIndex,
                 dateType: dType,
                 timeAfter: dAfter,
@@ -275,11 +280,10 @@ contract DocumentContract{
             });
             
         
-        AccountManager acc = AccountManager(manager);
+        
         //manager.call(bytes4(keccak256("addToLedger(address, address, uint, string, uint, uint, string, string)")));
         acc.addToLedger(requests.length,req.requester,req.requestee,now,doc.typeofDoc,doc.fee,req.timeAfter,req.dateType,"PENDING");
-        address tpContract = acc.getContractAddress(msg.sender);
-        ThirdParty tp = ThirdParty(tpContract);
+        
         tp.addRequest(owner, docIndex, dAfter, dType, "PENDING",this);
         requests.push(req);
     }
@@ -327,7 +331,7 @@ contract DocumentContract{
         acc.addToLedger(index,req.requester,req.requestee,now,doc.typeofDoc,doc.fee,req.timeAfter,req.dateType,"ACCEPTED");
         address tpContract = acc.getContractAddress(req.requester);
         ThirdParty tp = ThirdParty(tpContract);
-        tp.updateStatus(index, "ACCEPTED",this);
+        tp.updateStatus(req.tpIndex, "ACCEPTED",this);
     }
     
 
@@ -358,7 +362,7 @@ contract DocumentContract{
         acc.addToLedger(index,req.requester,req.requestee,now,doc.typeofDoc,doc.fee,req.timeAfter,req.dateType,"REJECTED");
         address tpContract = acc.getContractAddress(req.requester);
         ThirdParty tp = ThirdParty(tpContract);
-        tp.updateStatus(index, "REJECTED",this);
+        tp.updateStatus(req.tpIndex, "REJECTED",this);
     }
     
     function markAccessed() public {
