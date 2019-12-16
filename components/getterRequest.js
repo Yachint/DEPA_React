@@ -21,7 +21,7 @@ class GetterRequestRow extends Component{
             await contract.methods.grantPermission(this.props.id).send({
                 from: accounts[0]
             });
-            //Router.pushRoute(`/accounts/User/manage/${this.props.address}/requests`);
+        Router.pushRoute(`/history`);
 
         }catch(err){
             this.setState({errorMessage : err.message});
@@ -39,7 +39,7 @@ class GetterRequestRow extends Component{
         try{
             const accounts = await web3.eth.getAccounts();
             const contract = DocContract(this.props.address);
-            await contract.methods.rejectRequest(this.props.id).call({
+            await contract.methods.rejectRequest(this.props.id).send({
                 from: accounts[0]
             });
             //Router.pushRoute(`/accounts/User/manage/${this.props.address}/requests`);
@@ -75,13 +75,19 @@ class GetterRequestRow extends Component{
             <Cell>{requestings.timeAfter}</Cell>
             <Cell>{requestings.dateType}</Cell>
             <Cell>
-            <Link route="/">
-                <a><Button onClick={this.onAccept} loading={this.state.loading} disabled={buttonDis} color='blue'>Accept</Button></a>
-            </Link>
+            {/* <Link route="/"> */}
+                {/* <a> */}
+                    <Button onClick={this.onAccept} loading={this.state.loading} disabled={buttonDis} color='blue'>Accept</Button>
+                    {/* </a> */}
+            {/* </Link> */}
                 </Cell>
-            <Cell><Link route="/">
-                <a><Button onClick={this.onReject} loading={this.state.loading} disabled={buttonDis} color='red'>Reject</Button></a>
-            </Link></Cell>
+            <Cell>
+                {/* <Link route="/"> */}
+                {/* <a> */}
+                    <Button onClick={this.onReject} loading={this.state.loading} disabled={buttonDis} color='red'>Reject</Button>
+                    {/* </a> */}
+            {/* </Link> */}
+            </Cell>
         </Row>  
         )
     }

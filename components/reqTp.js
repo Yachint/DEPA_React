@@ -73,7 +73,7 @@ class RequestThirdParty extends Component {
             <Cell>{status}</Cell>
             <Cell>{
                 buttonDis ? 
-                <Button color='red'onClick={this.onAccept} > 
+                <Button color='red' > 
                 Pending !!
                 </Button>
                 :(
