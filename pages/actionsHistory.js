@@ -10,15 +10,22 @@ class ActionHistory extends Component {
     static async getInitialProps(props){
         
         const docCount = await AccFactory.methods.getActionsLength().call();
+        var val = [];
         const requestings=await Promise.all(
             Array(parseInt(docCount)).fill().map((element,index)=>{
                 return AccFactory.methods.actions(index).call()
             })
         );
 
-        console.log(requestings);
+        requestings.forEach(element => {
+            const t = new Date(parseInt(element.tstamp)*1000);
+            val.push(t.toString().substring(4,24));
+            
+        });
 
-        return { requestings : requestings, docCount: docCount };
+
+
+        return { requestings : requestings, docCount: docCount , val : val};
     }
 
     requestHistory = () => {
@@ -27,6 +34,7 @@ class ActionHistory extends Component {
             key={index}
             id={index}
             requestings={request}
+            val={this.props.val[index]}
             />
         })
     }

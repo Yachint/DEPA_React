@@ -48,6 +48,7 @@ class RequestGetter extends Component{
                         <HeaderCell>Granted Status</HeaderCell>
                         <HeaderCell>Time Unit</HeaderCell>
                         <HeaderCell>Time Duration</HeaderCell>
+                        <HeaderCell>Valid</HeaderCell>
                         <HeaderCell>Accept?</HeaderCell>
                         <HeaderCell>Reject?</HeaderCell>
                     </Row>

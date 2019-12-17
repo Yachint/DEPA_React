@@ -4,7 +4,7 @@ class RequestAction extends Component{
 
     render(){
         const {Row,Cell}=Table;
-        const {id,requestings}=this.props;
+        const {id,requestings,val}=this.props;
         return(
         <Row>
             <Cell>{id}</Cell>
@@ -12,7 +12,7 @@ class RequestAction extends Component{
             <Cell>{requestings.fromAdd}</Cell>
             <Cell>{requestings.ToAdd}</Cell>
             <Cell>{requestings.feePaid}</Cell>
-            <Cell>{requestings.tstamp}</Cell>
+            <Cell width="16">{val}</Cell>
         </Row>
         )
     }

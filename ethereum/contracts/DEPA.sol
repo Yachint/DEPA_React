@@ -191,6 +191,7 @@ contract DocumentContract{
         bool granted;
         uint timeAfter;
         string dateType;
+        bool valid;
     }
     struct History{
         uint reqIndex;
@@ -276,7 +277,8 @@ contract DocumentContract{
                 docIndex: docIndex,
                 dateType: dType,
                 timeAfter: dAfter,
-                granted: false
+                granted: false,
+                valid : true
             });
             
         
@@ -297,18 +299,22 @@ contract DocumentContract{
             if(keccak256(req.dateType) == keccak256('seconds')){
                 doc.timeGiven[req.requester] = now + req.timeAfter * 1 seconds;
                 req.granted = true;
+                req.valid = false;
             }
             else if(keccak256(req.dateType) == keccak256('minutes')){
                 doc.timeGiven[req.requester] = now + req.timeAfter * 1 minutes;
                 req.granted = true;
+                req.valid = false;
             }
             else if(keccak256(req.dateType) == keccak256('hours')){
                 doc.timeGiven[req.requester] = now + req.timeAfter * 1 hours;
                 req.granted = true;
+                req.valid = false;
             }
             else if(keccak256(req.dateType) == keccak256('days')){
                 doc.timeGiven[req.requester] = now + req.timeAfter * 1 days;
                 req.granted = true;
+                req.valid = false;
             }
         }else{
              
@@ -340,7 +346,8 @@ contract DocumentContract{
         require(msg.sender==owner);
         Request storage req = requests[index];
         Document storage doc = documents[req.docIndex];
-        
+        req.valid = false;
+        req.granted = false;
         req.requester.transfer(doc.fee);
         
         

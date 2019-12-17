@@ -59,7 +59,9 @@ class GetterRequestRow extends Component{
         const {Row,Cell}=Table;
         const {id,requestings,reqCount, address}=this.props;
         let cond;
+        let cond2;
         var buttonDis = true;
+        
         if(requestings.granted==true){
             cond = "true";
             
@@ -67,6 +69,15 @@ class GetterRequestRow extends Component{
         else{
             cond = "false";
             buttonDis = false;
+        }
+
+        if(requestings.valid == true){
+            
+            cond2 = "true"
+        }
+        else{
+            buttonDis = true;
+            cond2 = "false"
         }
         //console.log(requestings.granted);
         return(
@@ -77,6 +88,7 @@ class GetterRequestRow extends Component{
             <Cell>{cond}</Cell>
             <Cell>{requestings.timeAfter}</Cell>
             <Cell>{requestings.dateType}</Cell>
+            <Cell>{cond2}</Cell>
             <Cell>
             {/* <Link route="/"> */}
                 {/* <a> */}

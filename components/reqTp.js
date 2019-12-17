@@ -58,8 +58,12 @@ class RequestThirdParty extends Component {
     render() {
         const { id,orgname, description, address,requestee,timeafter,status,datetype} = this.props;
         var buttonDis = true;
-        if(status!="PENDING"){
+        var rejected = false;
+        if(status!="PENDING" && status!="REJECTED"){
             buttonDis = false;
+        }
+        if(status == "REJECTED"){
+            rejected = true;
         }
         const {Row,Cell}=Table;
         const buttonHide = this.state.available ? {} : {display : 'none'}
@@ -73,8 +77,8 @@ class RequestThirdParty extends Component {
             <Cell>{status}</Cell>
             <Cell>{
                 buttonDis ? 
-                <Button color='red' > 
-                Pending !!
+                <Button color='red' disabled={true}> 
+                {rejected?"Rejected!" : "Pending.."}
                 </Button>
                 :(
                 <Button color='green'  loading={this.state.loading} onClick={this.onAccept} basic disabled={buttonDis}>Access Doc</Button>
